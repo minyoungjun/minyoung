@@ -1,0 +1,51 @@
+h1 {
+		color:white;
+		font-size:30px;
+		font-family:나눔고딕,맑은고딕,Malgun Gothic;
+}
+li {color:white;}
+body {
+	background-color:black;
+}
+
+img {
+	border-radius:10px;
+}
+
+
+p {
+	color:white;
+	font-family:나눔고딕,맑은고딕,Malgun Gothic,고딕, Gothic;
+}
+
+a:link {
+	color:#6495ED;
+	text-decoration:none;
+	}
+
+a:hover {
+	color:blue;
+	text-decoration:none;
+}
+
+a:visited {
+	text-decoration:none;
+}
+#title {
+	width:300px;
+	height:50:px;
+	text-align:center;
+}	
+
+
+
+#box {
+	height:300px;
+	width:300px;
+	border:2px solid #6495ED;
+	border-radius:12px;
+}
+
+	body {
+	background-position:center;
+}
