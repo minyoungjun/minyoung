@@ -1,0 +1,2 @@
+class YellowController < ApplicationController
+end
