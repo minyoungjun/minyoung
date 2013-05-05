@@ -1,197 +1,151 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>전민영닷컴</title>
-<meta name="keywords" content="aqua theme, free website templates, one page, vertical scrolling, free layouts, CSS, HTML" />
-<meta name="description" content="Aqua Theme is a free website template with vertical scrolling one page layout by templatemo.com" />
-<link href="templatemo_style.css" rel="stylesheet" type="text/css" />
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8; initial-scale=1.0; user-scalable=no;" name="viewport"/>
+    <title>Seoul Tour in GPS</title>
 
-<script type='text/javascript' src='js/jquery.min.js'></script>
-<script type='text/javascript' src='js/jquery.scrollTo-min.js'></script>
-<script type='text/javascript' src='js/jquery.localscroll-min.js'></script>
+    <link href="/map.css" rel="stylesheet">
+
+    <script src="http://maps.google.com/maps?file=api&v=2&key=AIzaSyB4FlBliFBmgqVp7vWH1P3fqrnJycNHUhQ" type="text/javascript"></script>
+<!-- According to the Google Maps API Terms of Service you are required display a Google map when using the Google Maps API. see: http://code.google.com/apis/maps/terms.html -->
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>    
+
 <script type="text/javascript">
-$(document).ready(function () {
-$.localScroll();
-});
-</script> 
 
-<link rel="stylesheet" href="css/slimbox2.css" type="text/css" media="screen" /> 
-<script type="text/JavaScript" src="js/slimbox2.js"></script> 
+    var my_lat, my_lon, geocoder, location1, location2, map, my_location;
 
-</head>
+//여기서부터는 내위치찾는거
+function initialize() {
 
-<body>
+  geocoder = new GClientGeocoder();
 
-<div id="background">
+  var mapOptions = {
+    zoom: 15,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+  map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
 
-<div id="templatemo_wrapper">
-	<div id="templatemo_header"><!--
-    	<div id="site_title"><a href="http://www.templatemo.com/page/1">Free Website Template</a></div>
-   --!> </div> <!-- END of -->
+  // Try HTML5 geolocation 여기에서 position.coords.latitude 이게 의심스러움ㅋㅋ
+  if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+
+        my_lat = position.coords.latitude;
+       my_lon = position.coords.longitude;
+      
+        var pos = new google.maps.LatLng(position.coords.latitude,
+                                       position.coords.longitude);
+
+      var infowindow = new google.maps.InfoWindow({
+        
+
+        map: map,
+        position: pos,
+        content: '당신의 위치입니다.'
+      });
+
+      map.setCenter(pos);
+    }, function() {
+      handleNoGeolocation(true);
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleNoGeolocation(false);
+  }
+}
+
+function handleNoGeolocation(errorFlag) {
+  if (errorFlag) {
+    var content = 'Error: The Geolocation service failed.';
+  } else {
+    var content = 'Error: Your browser doesn\'t support geolocation.';
+  }
+
+  var options = {
+    map: map,
+    position: new google.maps.LatLng(60, 105),
+    content: content
+  };
+
+  var infowindow = new google.maps.InfoWindow(options);
+  map.setCenter(options.position);
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+
+
+
+//이밑에꺼는 거리계산하는거
+
+    function showLocation() {
+        geocoder.getLocations(document.forms[0].address1.value, function (response) {
+            if (!response || response.Status.code != 200)
+            {
+                alert("Sorry, we were unable to geocode the first address");
+            }
+            else
+            {
+                location1 = {lat: response.Placemark[0].Point.coordinates[1], lon: response.Placemark[0].Point.coordinates[0], address: response.Placemark[0].address};
+             calculateDistance(); 
+               // geocoder.getLocations(document.forms[0].address2.value, function (response) {
+                   // if (!response || response.Status.code != 200)
+                   // {
+                     //   alert("Sorry, we were unable to geocode the second address");
+                   // }
+                   // else
+                   // {
+                    //    location2 = {lat: response.Placemark[0].Point.coordinates[1], lon: response.Placemark[0].Point.coordinates[0], address: response.Placemark[0].address};
+    //                    calculateDistance();
+                   // }
+              //  });
+                
+            }
+        });
+    }
     
-    <div id="templatmeo_menu">
-    	<ul>
-        	<li><a href="#templatmeo_menu" class="home">전민영</a></li>
-            <li><a href="#about" class="about">하는 일</a></li>
-            <li><a href="#portfolio" class="portfolio">해온 일</a></li>
-            <li><a href="#services" class="services">하고싶은 일</a></li>
-            <li><a href="#contact" class="contact">연락처</a></li>
-		</ul>
-    </div> <!-- END of -->
-    
-    <div id="templatemo_main">
-    	<div id="home" class="main_box">
-        	<div class="col col_23">
-            	<img src="images/minyoung.png" alt="image" class="img_float_l" />
-                <div class="col_24">
-                <h3>전민영 약력</h3>
-          <ul class="tmo_list">
-                    <li>울산 출생 (1991년)</li>
-                    <li>현대청운고등학교 졸업 (2010년)</li>
-                    <li>서울대학교 자유전공학부 (2011년~)</li>
-										<li>자유전공학부 라온반 반장 (2012년 1학기)</li>
-                    <li>시각 디자인, 컴퓨터 공학 전공 (2012년~)</li>
-                    <li>서울대학교 대학행정교육원 (2013년~)</li>
-										<li>멋쟁이 사자처럼 (2013년~)</li>
-                </ul>
-</div>			
-</div>
-                        <div class="cleaner"></div>
-            <div class="main_bottom">
-	            <a href="#templatemo_header"></a>
-			</div>
-            <div class="cleaner"></div>
-		</div> <!-- END of home -->
-        
-        <div id="about" class="main_box">
-           <a href="http://likelion.net"><img src="images/lion.png" alt="image" class="img_float_r" /></a>
-            <p>동아리 부원으로 활동중</p>
-<h1>멋쟁이 사자처럼</h1>
-<p><em>프로그래밍을 전혀 못하는 사람들이 천재 해커에게 프로그래밍을 배워서 서비스와 게임을 만든다. -<a href="http://likelion.net" target="_parent">likelion.net</a></em></p>
-            <p style="font-size:15px;">관련기사</p>
-				<a href="http://www.mt.co.kr/view/mtview.php?type=1&no=2013040514134205697&outlink=1">서울대 '천재 해커' 비전공자와 27개 벤처 만든다-머니투데이</a><br><br>
-<a href="http://www.zdnet.co.kr/ArticleView.asp?artice_id=20130329194009">"벤처 창업에 IT라는 날개를 달아드립니다"-ZDNet Korea</a><br><br>
-<a href="http://www.tvreport.co.kr/?c=news&m=newsview&idx=323258">김태희 졸업사진 해킹 유명 개발자, '프로그래밍 동아리'만든 이유는?-TV리포트</a><br><br>
-<a href="http://news1.kr/articles/1054131">패스트트랙아시아, 김태희 사진 해커 '이두희'후원-뉴스1</a><br><br>
-<a href="http://www.facebook.com/likelion.net" style="
-vertical-align:middle;display:table-cell;
-font-size:15px;"><img src="images/facebook.png" style="vertical-align:middle;"id="facebook"/><span style="line-hight:10px; margin:0 0 0; vertical-align:middle;"> 페이스북 페이지</span></a>
-		 
- <div class="cleaner h40"></div>
-            <div class="col col_23">
-                <div class="col col_13">
-				</div>
-                <div class="col col_13 no_margin_right">
-				</div>
-			</div>
-            <div class="col col_13 no_margin_right">
-            </div>
-            <div class="cleaner"></div>
-             <div class="main_bottom">
-	            <a href="#templatemo_header"></a>
-			</div>
-		</div> <!-- END of about -->
-        
-        <div id="portfolio" class="main_box">
-        	<h1> 지금까지 해온 일(업로드 예정)</h1>
-        	<ul id="gallery">
-                <li><a href="images/portfolio/01.jpg" rel="lightbox[portfolio]"><img src="images/portfolio/01-s.jpg" alt="image 1" /></a></li>
-                <li><a href="images/portfolio/02.jpg" rel="lightbox[portfolio]"><img src="images/portfolio/02-s.jpg" alt="image 2" /></a></li>
-                <li><a href="images/portfolio/03.jpg" rel="lightbox[portfolio]"><img src="images/portfolio/03-s.jpg" alt="image 3" /></a></li>
-                <li><a href="images/portfolio/04.jpg" rel="lightbox[portfolio]"><img src="images/portfolio/04-s.jpg" alt="image 4" /></a></li>
-                
-                <li><a href="images/portfolio/05.jpg" rel="lightbox[portfolio]"><img src="images/portfolio/05-s.jpg" alt="image 5" /></a></li>
-                <li><a href="images/portfolio/06.jpg" rel="lightbox[portfolio]"><img src="images/portfolio/06-s.jpg" alt="image 6" /></a></li>
-                <li><a href="images/portfolio/07.jpg" rel="lightbox[portfolio]"><img src="images/portfolio/07-s.jpg" alt="image 7" /></a></li>
-                <li><a href="images/portfolio/08.jpg" rel="lightbox[portfolio]"><img src="images/portfolio/08-s.jpg" alt="image 8" /></a></li>
-                
-                <li><a href="images/portfolio/12.jpg" rel="lightbox[portfolio]"><img src="images/portfolio/08-s.jpg" alt="image 9" /></a></li>
-                <li><a href="images/portfolio/09.jpg" rel="lightbox[portfolio]"><img src="images/portfolio/09-s.jpg" alt="image 10" /></a></li>
-                <li><a href="images/portfolio/01.jpg" rel="lightbox[portfolio]"><img src="images/portfolio/01-s.jpg" alt="image 11" /></a></li>
-                <li><a href="images/portfolio/04.jpg" rel="lightbox[portfolio]"><img src="images/portfolio/04-s.jpg" alt="image 12" /></a></li>
-			</ul>
-            <div class="cleaner"></div>
-            <div class="main_bottom">
-	            <a href="#templatemo_header"></a>
-			</div>
-            <div class="cleaner"></div>
-		</div> <!-- END of portfolio --> 
-        
-  		<div id="services" class="main_box">
-        
-        	<h1>하고 싶은 일</h1>
-            
-            <div class="col col_23">
-              <p><em style="font-size:13px;">저는 하고 싶은 게 너무 많습니다. 그래서 한 살이라도 더 어릴 때 이것 저것 도전해 보려고 합니다. 현재 '멋쟁이 사자처럼' 멤버들과 다양한 서비스를 기획중이고, 제 개인적으로도 여러가지 창작활동을 시도하고 있습니다.</em></p>
+    function calculateDistance()
+    {
+        try
+        {
+            var glatlng1 = new GLatLng(location1.lat, location1.lon);
+            var glatlng2 = new GLatLng(my_lat, my_lon);
+            var miledistance = glatlng1.distanceFrom(glatlng2, 3959).toFixed(1);
+            var kmdistance = (miledistance * 1.609344).toFixed(1);
 
-			</div>
-            
-            <div class="col col_23 no_margin_left">
-                <h6>소설 쓰기</h6>
-                <p>다양한 장르의 소설을 쓸 것입니다. 현재 쓴 소설도 있고<a href="https://docs.google.com/document/d/1_BGz1aw_KgdLDgPU3yVUYe77mZcKiIb3vIQ5piAsVyw/edit?usp=sharing"> (클릭!) </a>쓰고 있는 소설도 있습니다.</p>
-                <h6>영화 만들기</h6>
-                <p>영화 감독이나 찍기가 아닌 '만들기'인 이유는 영화의 기획부터 감독, 연출, 촬영, 편집 모든 분야에 관심이 있기 때문에 (혼자 하겠다는 것은 아니고) 어떤 분야던지간에 직접 한번 해보고 싶기 때문입니다.</p>
-                <h6>서비스 만들기</h6>
-              <p>지금 배우고 있기도 하고 앞으로도 이걸로 먹고 살 생각입니다. 멋진 웹사이트 또는 어플리케이션을 만들어서 사람들에게 실질적인 도움을 주고 싶습니다.</p>
-            </div>
-            <div class="main_bottom">
-	            <a href="#templatemo_header"></a>
-			</div>
-          	<div class="cleaner"></div>
-		</div> <!-- END of services -->
-        
-        <div id="contact" class="main_box">
-        	<h1>연락처</h1>
-            <div class="col_12 float_l">
-            	<p style="font-size:14px">저에게 연락하실 방법은 여러가지가 있습니다.</p>
-                <div class="cleaner h30"></div>
-                <div id="contact_form">
-                    <form method="post" name="contact" action="#contact">
-                        <input type="hidden" name="post" value="Send" />
-                        
-                        
-                        <div class="cleaner h10"></div>
-               <h4>찾아오시는 길</h4><p style="fontsize:12px">
-                서울특별시 관악구 관악로1 <br>
-                서울대학교 57동 행정대학원<br>
-                106호 대학행정교육원<br>
-              	<br>
-								<strong>전화: 02-880-5714</strong><br>
-                <strong>이메일: minyoung9353@gmail.com</strong></p>
- <a href="http://www.facebook.com/minyoung.jun.7" style="
-vertical-align:middle;display:table-cell;
-font-size:15px;"><img src="images/facebook.png" style="vertical-align:middle;"id="facebook"/><span style="line-hight:10px; margin:0 0 0; vertical-align:middle;"> 페이스북 페이지</span></a>
-	               
+            document.getElementById('results').innerHTML = '<strong> 당신이 가고싶은 곳의 주소: </strong>' + location1.address + '<br />' + '<br/>' + '<br /><strong>당신이 있는 곳부터의 거리: </strong>' + kmdistance + ' (km)';
+        }
+        catch (error)
+        {
+            alert(error);
+        }
+    }
 
-<div class="h30"></div>
-                        
-                 
-                    </form>
-                
-                </div> 
-            </div>
-            <div class="col_12 float_r">
-            
-                <h4>근무지</h4>
-<iframe width="380" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.co.kr/maps?f=q&amp;source=s_q&amp;hl=ko&amp;geocode=&amp;q=%ED%96%89%EC%A0%95%EB%8C%80%ED%95%99%EC%9B%90&amp;aq=&amp;sll=37.462187,126.954017&amp;sspn=0.009555,0.022595&amp;ie=UTF8&amp;hq=%ED%96%89%EC%A0%95%EB%8C%80%ED%95%99%EC%9B%90&amp;hnear=&amp;ll=37.465547,126.953142&amp;spn=0.009555,0.022595&amp;t=m&amp;z=14&amp;iwloc=A&amp;cid=6749748123585601759&amp;output=embed"></iframe><br /><small><a href="https://maps.google.co.kr/maps?f=q&amp;source=embed&amp;hl=ko&amp;geocode=&amp;q=%ED%96%89%EC%A0%95%EB%8C%80%ED%95%99%EC%9B%90&amp;aq=&amp;sll=37.462187,126.954017&amp;sspn=0.009555,0.022595&amp;ie=UTF8&amp;hq=%ED%96%89%EC%A0%95%EB%8C%80%ED%95%99%EC%9B%90&amp;hnear=&amp;ll=37.465547,126.953142&amp;spn=0.009555,0.022595&amp;t=m&amp;z=14&amp;iwloc=A&amp;cid=6749748123585601759" style="color:#0000FF;text-align:left">크게 보기</a></small>
-                
-            </div>
-		</div>
-        <div class="cleaner"></div>
-            <div class="main_bottom">
-	            <a href="#templatemo_header"></a>
-			</div>
-            <div class="cleaner"></div>
-		</div> <!-- END of contact -->
-    </div>
-    
-    <div id="templatemo_footer"
-			style="color:white"	>
-    	Copyright © 2013 Minyoung Jun<br /> Design From <a href="http://www.templatemo.com" target="_parent"
-style="color:#f9ff82;">Free CSS Templates</a>
-    </div>
+    </script>
+  </head>
 
-</div>
-</body>
+  <body onload="initialize()">
+
+    <div id="map-canvas"></div>  
+
+    <p>
+    GPS를 켜고, 당신의 위치를 사용하는 것을 허용해주세요.
+    <br>
+    위의 지도가 보이지 않으면 창을 새로고침해 주세요.
+    <br>
+    지도에 뜬 게 자신의 위치가 맞는지 확인하세요. 그게 틀리면 거리도 당연히 틀리겠죠?ㅋㅋ<br>
+
+    이제 빈칸에 당신이 가고 싶은 장소를 입력하세요.</p>
+
+    <form style="margin-left:10px;" action="#" onsubmit="showLocation(); return false;">
+      <p>
+        <input type="text" name="address1" value="" class="address_input" size="40" />
+        <input type="submit" name="find" value="거리 측정" />
+      </p>
+    </form>
+    <p id="results"></p>
+
+  </body>
 </html>
+
