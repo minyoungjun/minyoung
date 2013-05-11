@@ -1,14 +1,184 @@
+<script type="text/javascript">
+
+    var my_lat, my_lon, geocoder, location1, location2, map, my_location;
+
+//여기서부터는 내위치찾는거
+function initialize() {
+
+  geocoder = new GClientGeocoder();
+
+  var mapOptions = {
+    zoom: 15,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+  map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
+
+  // Try HTML5 geolocation 여기에서 position.coords.latitude 이게 의심스러움ㅋㅋ
+  if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+
+        my_lat = position.coords.latitude;
+       my_lon = position.coords.longitude;
+      
+        var pos = new google.maps.LatLng(position.coords.latitude,
+                                       position.coords.longitude);
+
+      var infowindow = new google.maps.InfoWindow({
+        
+
+        map: map,
+        position: pos,
+        content: '당신의 위치입니다.'
+      });
+
+      map.setCenter(pos);
+    }, function() {
+      handleNoGeolocation(true);
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleNoGeolocation(false);
+  }
+}
+
+function handleNoGeolocation(errorFlag) {
+  if (errorFlag) {
+    var content = 'GPS기능을 사용할 수 없습니다.(당신의 기기에 GPS가 없을 수도 있음ㅋㅋ)';
+  } else {
+    var content = '당신의 브라우저가 GPS를 활용할 수 없는 브라우저입니다.';
+  }
+
+  var options = {
+    map: map,
+    position: new google.maps.LatLng(60, 105),
+    content: content
+  };
+
+  var infowindow = new google.maps.InfoWindow(options);
+  map.setCenter(options.position);
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+
+
+
+//이밑에꺼는 거리계산하는거
+
+    function showLocation() {
+
+        geocoder.getLocations(document.forms[0].address1.value, function (response) {
+            if (!response || response.Status.code != 200)
+            {
+                alert("Sorry, we were unable to geocode the first address");
+            }
+            else
+            {
+                location1 = {lat: response.Placemark[0].Point.coordinates[1], lon: response.Placemark[0].Point.coordinates[0], address: response.Placemark[0].address};
+             calculateDistance(); 
+               // geocoder.getLocations(document.forms[0].address2.value, function (response) {
+                   // if (!response || response.Status.code != 200)
+                   // {
+                     //   alert("Sorry, we were unable to geocode the second address");
+                   // }
+                   // else
+                   // {
+                    //    location2 = {lat: response.Placemark[0].Point.coordinates[1], lon: response.Placemark[0].Point.coordinates[0], address: response.Placemark[0].address};
+    //                    calculateDistance();
+                   // }
+              //  });
+                
+            }
+        });
+    }
+
+
+    function goal(){
+
+      calculateDistance();
+        
+
+    }
+
+    function arrive(){
+      
+      try
+        {
+            var glatlng1 = new GLatLng(37.4592602, 126.953321);
+            var glatlng2 = new GLatLng(my_lat, my_lon);
+            var miledistance = glatlng1.distanceFrom(glatlng2, 3959).toFixed(1);
+            var kmdistance = (miledistance * 1.609344).toFixed(1);
+ 
+  if(kmdistance < 1) {
+    location.href = "http://yeonsun.junminyoung.com/yellow/snu/";
+  }
+  else { 
+        alert("아직 도착하지 못했네요ㅠㅠ지도상에서 당신의 위치를 다시한번 확인해 보시겠어요?");
+  }
+            
+            /*
+            document.getElementById('results').innerHTML = '<br /><strong>당신이 있는 곳부터의 거리: </strong>' + kmdistance + ' (km)';
+  */
+            
+            }
+
+        catch (error)
+        {
+            alert(error);
+        }
+
+    }
+
+
+
+    function calculateDistance()
+    {
+        try
+        {
+            var glatlng1 = new GLatLng(37.4592602, 126.953321);
+            var glatlng2 = new GLatLng(my_lat, my_lon);
+            var miledistance = glatlng1.distanceFrom(glatlng2, 3959).toFixed(1);
+            var kmdistance = (miledistance * 1.609344).toFixed(1);
+
+            document.getElementById('results').innerHTML = '<br /><strong>당신이 있는 곳부터의 거리: </strong>' + kmdistance + ' (km)';
+        }
+        catch (error)
+        {
+            alert(error);
+        }
+    }
+
+    </script>
+
+
+
+
+<div id= "map-canvas"></div>
+
 <div class="main">
 <h1>뇽이가 사라졌다!</h1>
 <br>
-<p> 평화롭던 개포동이 혼란에 빠졌다. </p>
-<p> 사랑스러운 뇽이가 사라졌다는 것이다.</p>
+<p> 어느날 뇽이가 갑자기 사라졌다. 그리고 똔이는 이런 꿈을 꾸게된다.
+뇽이는 본디 천상세계의 아이인데, 천상의 법도를 어겨 지상으로 유배되었다. 그리하여 천상에서의 기억을 모두 잃어버린 채 살고 있었는데, 유배 기간이 끝나 이제 천상으로 올라갔다. 지상에서의 기억은 7 조각을 내어서 곳곳에 숨겨두었다. 뇽이를 되찾고 싶으면 기억의 조각을 모두 모아와서 뇽이를 설득시켜야 한다. 첫번째조각이 있는 곳은 뇽이와 똔이가 처음 만난 곳이다.
 
-<p>뇽이를 마지막으로 본 사람은 406번 버스 기사아저씨. 그는 이렇게 말한다.</p>
-<p>"은진수라는 마법사가 귀여운 청년을 어디론가 데려가더군. 왠지 수상해 보였어... 아마 저쪽으로 갔을거야."</p>
-<p>그가 가르킨 곳은 럭키슈퍼마켓 쪽이었다. 럭키 슈퍼마켓으로 가보자.</p>
+    <form style="margin-left:10px;" action="#" onsubmit="goal(); return false;">
+      <p>
+<!--<input type="text" name="address1" value="" class="address_input" size="40" />-->
+        <input type="submit" name="find" value="여기서 얼마나 멀리 떨어져있나요?" />
+      </p>
+    </form>
+    <p id="results"></p>
 
-<br>
+
+    <form style = "margin-left : 10px;" action = "#" onsubmit="arrive(); return false;">
+    <p>
+    <input type = "submit" name = "find" value = "도착하면 클릭하세요." />
+    </p>
+    </form>
+    
+<!--
+    <br>
 <a href = "/yellow/lucky" style = "text-decoration:none;">
 <div class ="button">
   
@@ -17,5 +187,6 @@ text-decoration:none;
 font-size:15px; font-weight:bold; color:#2377bb;">도착했으면 누르세요.</p>
 </div>
 </a>
+-->
 </div>
 

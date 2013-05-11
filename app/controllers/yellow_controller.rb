@@ -1,8 +1,13 @@
 class YellowController < ApplicationController
 
-def start
+  def start
+##화성각
+  end
 
-end
+  def gapo
+
+##개포동역
+  end
 
 
 
