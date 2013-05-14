@@ -2,38 +2,3 @@
 // They will automatically be included in application.css.
 
 
-
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-#map-canvas, #map_canvas {
-  height: 50%;
-  width:100%;
-}
-
-@media print {
-  html, body {
-    height: auto;
-  }
-
-  #map_canvas {
- 
-  width:650px;
-   height: 650px;
-  }
-}
-
-#panel {
-  position: absolute;
-  top: 5px;
-  left: 50%;
-  margin-left: -180px;
-  z-index: 5;
-  background-color: #fff;
-  padding: 5px;
-  border: 1px solid #999;
-  height:10px;
-}

@@ -101,14 +101,6 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
     }
 
-
-function next(){
- alert("모험을 시작하려면 GPS를 켜고, 내 위치 공유를 허용해주세요. 잘 안 될때는 새로고침을 해주세요.")
-
-  location.href = "/yellow/lucky1/";
-}
-
-
     function arrive(){
       
       try
@@ -159,61 +151,38 @@ function next(){
 
     </script>
 
-
-<!--
-<div id= "map-canvas"></div>
--->
-
-
-<%= image_tag 'main.jpg', class:'dragon0'%>
-<div class="whitebox">
+<div class = "whitebox">
 <div class="main">
+<h1>1000년 후 구룡마을</h1>
 <br>
-<h1>뇽(龍)의 전설(傳說)</h1>
-<br>
-<p>
 
- 지금은 ‘구룡(九龍) 마을’ 이라고 불리는 곳, 서울 강남(江南)의 마지막 남은 판자촌에는 슬픈 전설이 서려있다. 아주 먼 옛날, 구체적으로는 고려 현종(懸宗) 4년, 구룡 마을 뒷산 연못 깊은 곳에는 10 마리의 이무기가 살고 있었다. 이들은 한날 한시에 용(龍)이 되기 위해서 구백구십구 년 하고도 삽백육십사일의 시간을 차가운 물 속에서 지내고 있었다. 인고의 시간, 용이 되기 위한 천년(千年)의 세월이 거의 다 지나고 단 하루가 남은 마지막 날. 10마리의 용들은 내일 하늘로 올라간다는 부푼 마음을 안고  물속에서 여러가지 채비를 하고 있었다. 
+<p>
+평화로운 개포시영아파트에 이상한 소문이 들리기 시작했다. 구룡마을 뒷 산에서 마른 하늘에 천둥이 치기도 하고 밤에 불빛이 보이기도 한다는 것이다. 마을의 한 노인은 구룡 마을의 전설에 나오는 용의 짓이라고, 용이 노한것임에 틀림없다고 말하고 다녔지만 그것을 믿는 사람은 아무도 없었다.
 </p>
 <p>
-<strong>  ‘풍덩!’</strong>
+그러던 어느날 개포시영아파트에 여자치친구를 만나러왔던 귀여운 소년이럭키슈퍼마켓 쪽에서 수상한 할아버지를 따라가는 것을 누군가가 보았다고 한다.
 </p>
- <p> 10마리의 이무기들은 깊은 물 속에서도 진동을 느낄 수 있었다. 무슨 일이지?
-</br>
-</p>
-<p><strong>
-  “어푸, 어푸 살려주세요!”
-</strong>
-</p>
- <p>  여기는 꽤 깊은 연못인데... 아마도 나무꾼이 발을 헛디뎌 빠진 듯 하다. 10마리의 이무기들은 소리를 듣고도 서로의 눈치만을 살피고 있다. 이제 단 하루, 이 하루만 버티면 기다리고 기다리던 용이 될 수 있는데...
-</p><p><strong>
-   ‘첨벙 첨벙'
-   </strong>
-</p><p>
-    이제 말소리도 들리지 않는 걸로 보아, 얼마 안 있어 그는 죽을 것이다. 마치 아무 일도 없었던 듯, 제각기 용이 될 채비를 하는 중, 한 마리의 이무기가 서서히 위로 올라가는 것이 다른 녀석들의 눈에 띄었다. ‘가지 마.’  눈빛으로 말해보지만 소용이 없다.  
-</p><p>
-     그리고 그 이무기는 다음날까지 돌아오지 않았다. 용이 되길 포기한 것이다. 그리고 나머지 9마리의 이무기들은 용이 되어 영생(永生)을 얻고, 자신의 영역을 지키는 수호신(守護神)이 되었다. 이러한 전설이 전해 내려오는 이곳은 9마리의 용이 승천한 곳이라는 뜻의 '구룡(九龍)마을'이라 불린다.
-</p>
-<p><strong>그 후 1000년의 시간이 지났다.
-</strong>
-</p>
-<!--
+
+<p><strong>럭키 슈퍼마켓으로 가보자.</strong>
+</div>
+</div>
+<div id= "map-canvas"></div>
+
 <form style="margin-left:10px;" action="#" onsubmit="goal(); return false;">
       <p>
-        <input type="submit" name="find" value="여기서 얼마나 멀리 떨어져있나요?" />
+<!--<input type="text" name="address1" value="" class="address_input" size="40" />-->
+        <input type="submit" name="find" value="럭키슈퍼는 여기서 얼마나 더 가야되나요?" />
       </p>
     </form>
     <p id="results"></p>
 
--->
 
-    <form style = "margin: 0 auto;" action = "#" onsubmit="next(); return false;">
+    <form style = "margin-left : 10px;" action = "#" onsubmit="arrive(); return false;">
     <p>
-    <input type = "submit" name = "find" value = "다음 이야기가 궁금하면 누르세요." />
+    <input type = "submit" name = "find" value = "도착했어요." />
     </p>
     </form>
-    </br>
-    </br>
+    
 <!--
     <br>
 <a href = "/yellow/lucky" style = "text-decoration:none;">
@@ -225,5 +194,3 @@ font-size:15px; font-weight:bold; color:#2377bb;">도착했으면 누르세요.<
 </div>
 </a>
 -->
-</div>
-</div>
